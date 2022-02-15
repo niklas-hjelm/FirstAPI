@@ -1,24 +1,35 @@
-const express = require('express')
-const app = express()
-const port = 3000
+//Server info och moduler
+const path = require("path");
+const express = require("express");
+const app = express();
+const port = 3000;
 
-app.use(express.json())
-app.use(express.urlencoded())
+//Sätt upp våran server att kunna tyda JSON och urlencoded
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const htmlDir = __dirname + '/frontend/html/'
-const cssDir = __dirname + '/frontend/css/'
+//Sätta en mapp för statiska filer
+app.use(express.static(path.join(__dirname, "frontend", "static/")));
 
-app.get('/', (req, res) => {
-    res.sendFile(htmlDir + 'index.html')
-})
+// Konstanter för våra front end directories
+const htmlDir = path.join(__dirname, "frontend", "static", "html/");
 
-app.get('/css', (req, res) => {
-  res.sendFile(cssDir + 'style.css')
-})
+// Hantering av GET Requests
+app.get("/", (req, res) => {
+  res.sendFile(htmlDir + "index.html");
+});
 
-app.post('/', (req, res) => {
-    console.log(req.body.inputText)
-  res.redirect('/')
-})
+// const messages = [];
+// app.get("/message", (req, res) => {
+//   res.send(messages);
+// });
 
-app.listen(port, () => console.log(`App listening on port ${port}!`))
+// //Hantering av POST Requests
+// app.post("/message", (req, res) => {
+//   console.log(req.body);
+//   messages.push(req.body);
+//   res.redirect("/");
+// });
+
+// Tala om för våran Express-app att börja lyssna efter Requests på porten vi valt
+app.listen(port, () => console.log(`App listening on port ${port}!`));
