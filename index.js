@@ -4,6 +4,10 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+//databaskonstanter
+const databaseModule = require("./databaseModule");
+const MessageModel = require("./MessageModel");
+
 //Sätt upp våran server att kunna tyda JSON och urlencoded
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,20 +20,19 @@ const htmlDir = path.join(__dirname, "frontend", "static", "html/");
 
 // Hantering av GET Requests
 app.get("/", (req, res) => {
-  console.log(messages);
   res.sendFile(htmlDir + "index.html");
 });
 
-const messages = [];
-app.get("/message", (req, res) => {
-  console.log("Det funkar");
+app.get("/message", async (req, res) => {
+  const messages = await MessageModel.getAllMessages();
   res.send(messages);
 });
 
 //Hantering av POST Requests
 app.post("/message", (req, res) => {
-  console.log(req.body);
-  messages.push(req.body);
+  // SPARA I DATABAS
+  const messageModel = MessageModel.newMessage(req.body.name, req.body.text);
+  databaseModule.storeElement(messageModel);
   res.redirect("/");
 });
 
