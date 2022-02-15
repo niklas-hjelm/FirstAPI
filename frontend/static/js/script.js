@@ -17,19 +17,19 @@ closeBtn.onclick = function () {
 //   }
 // };
 
-// fetch("/test")
-//   .then((response) => {
-//     return response.json();
-//   })
-//   .then((data) => {
-//     data.forEach((element) => {
-//       const li = document.createElement("li");
-//       const name = document.createElement("h4");
-//       const message = document.createElement("p");
-//       name.innerText = element.name;
-//       message.innerText = element.text;
-//       li.appendChild(name);
-//       li.appendChild(message);
-//       messages.appendChild(li);
-//     });
-//   });
+fetch("/message")
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    data.forEach((element) => {
+      const li = document.createElement("li");
+      const h4 = document.createElement("h4");
+      const p = document.createElement("p");
+      h4.innerText = element.name;
+      p.innerText = element.text;
+      li.appendChild(h4);
+      li.appendChild(p);
+      messages.appendChild(li);
+    });
+  });

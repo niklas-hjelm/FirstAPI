@@ -16,20 +16,26 @@ const htmlDir = path.join(__dirname, "frontend", "static", "html/");
 
 // Hantering av GET Requests
 app.get("/", (req, res) => {
+  console.log(messages);
   res.sendFile(htmlDir + "index.html");
 });
 
-// const messages = [];
-// app.get("/message", (req, res) => {
-//   res.send(messages);
-// });
+const messages = [];
+app.get("/message", (req, res) => {
+  console.log("Det funkar");
+  res.send(messages);
+});
 
-// //Hantering av POST Requests
-// app.post("/message", (req, res) => {
-//   console.log(req.body);
-//   messages.push(req.body);
-//   res.redirect("/");
-// });
+//Hantering av POST Requests
+app.post("/message", (req, res) => {
+  console.log(req.body);
+  messages.push(req.body);
+  res.redirect("/");
+});
+
+app.get("*", (req, res) => {
+  res.send(404);
+});
 
 // Tala om för våran Express-app att börja lyssna efter Requests på porten vi valt
 app.listen(port, () => console.log(`App listening on port ${port}!`));
